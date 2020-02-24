@@ -1,14 +1,14 @@
 <!-- todolist 每一个子项目-->
 <template>
   <div :class="{todolist: 'true', editing: isEdited}">
-    <input type="checkbox" class="toogle" @click="checkItem">
+    <input type="checkbox" class="toogle" @click="checkItem(index)" v-model="todoList.active">
     <label 
-    :class="{text: 'true', checked: isChecked}"
+    :class="{text: 'true', checked: !todoList.active}"
     @dblclick="editItem(index)"
-    >{{ todoList }}</label>
+    >{{ todoList.data }}</label>
     <button class="destroy" @click="deleteItem(index)"></button>
-    <input ref="editInput" type="text" class="edit" v-model="inputContent"  
-    @keydown="confirmItem"
+    <input ref="editInput" type="text" class="edit" v-model="todoList.data"  
+    @keydown.enter="confirmItem(index)"
     @blur="cancelEdit"
     spellcheck ="false">
   </div>
@@ -17,26 +17,17 @@
 <script>
 export default {
   props: {
-    todoList: String,
-    index: Number
+    todoList: Object,
+    index: Number,
+    chekedBtn: String
   },
   data() {
     return {
-      isChecked: false,
       isEdited: false,
-      inputContent: ''
     };
   },
-  mounted() {
-    this.inputContent = this.todoList
-  },
-  watch: {
-    inputContent(newValue, oldValue) {
-      this.$parent.$parent.editItem(this.index, newValue)
-    }
-  },
   methods: {
-    checkItem() {
+    checkItem(index) {
       this.isChecked = !this.isChecked
     },
     deleteItem(index) {
@@ -49,12 +40,10 @@ export default {
       })
     },
     cancelEdit() {
-      this.isEdited = false
+      this.isEdited = false 
     },
-    confirmItem(e) {
-      if(e.key === 'Enter') {
-        this.isEdited = false
-      }
+    confirmItem(index) {
+      this.isEdited = false
     }
   }
 }
@@ -135,26 +124,26 @@ export default {
       box-shadow: inset 0 -1px 5px 0 rgba(0, 0, 0, 0.2);
       box-sizing: border-box;
       outline: none;
-    }
-    .editing {
-      .edit {
-        display: block;
-        width: 557px;
-        padding: 12px 16px;
-        margin: 0 0 0 43px;
-        &:last-child {
-          margin-bottom: -1px;
-        }
-      }
-      .toggle {
-        display: none;
-      }
-      .destroy {
-        display: none;
-      }
-      .text {
-        display: none;
-      }
+    }  
+}
+.editing {
+  .edit {
+    display: block;
+    width: 557px;
+    padding: 12px 16px;
+    margin: 0 0 0 43px;
+    &:last-child {
+      margin-bottom: -1px;
     }
   }
+  .toggle {
+    display: none;
+  }
+  .destroy {
+    display: none;
+  }
+  .text {
+    display: none;
+  }
+}
 </style>

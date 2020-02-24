@@ -5,9 +5,15 @@
     <TodoListHeader/>
     <TodoListInput @entertoadd='addToLists'/>
     <TodoListItems 
-    :todoLists = "todoLists"/>  
+    :checkedBtn = "checkedBtn"
+    :todoLists = "todoLists"
+    @completedone='listsAllDone'/>  
     <TodoListFooter
-    :todoLists = "todoLists"/>
+    :todoLists = "todoLists"
+    :activeListsLength = "activeListsLength"
+    :checkedBtn = "checkedBtn"
+     @filter='filterLists'
+     @clear='clearCompletedLists'/>
   </div>
 </div>
 </template>
@@ -21,7 +27,10 @@ export default {
   data() {
     //存放数据
     return {
-      todoLists: []
+      //原数据
+      todoLists: [],
+      //底部选中按钮
+      checkedBtn: 'all'
     };
   },
   components: {
@@ -30,16 +39,43 @@ export default {
     TodoListItems,
     TodoListFooter
   },
+  computed: {
+    activeListsLength() {
+      return this.todoLists.filter(item => item.active).length
+    }
+  },
   //方法集合
   methods: {
+    //添加
     addToLists(data) {
-      this.todoLists.push(data)
+      this.todoLists.push({
+        data: data,
+        active: true
+      })
     },
+    //删除
     deleteItem(index) {
       this.todoLists.splice(index, 1)
     },
-    editItem(index, newValue) {
-      this.todoLists.splice(index, 1, newValue)
+    //更新
+    updateItem(index, key, data) {
+      if(data === '') {
+        this.deleteItem(index)
+        return
+      }
+      this.todoLists[index] && this.$set(this.todoLists[index], key, data)  
+    },
+    //过滤
+    filterLists(key) {
+      this.checkedBtn = key
+    },
+    listsAllDone(bool) {
+      this.todoLists.forEach(list => {
+        list.active = bool
+      })
+    },
+    clearCompletedLists() {
+      this.todoLists = this.todoLists.filter(item => item.active)
     }
   }
 }

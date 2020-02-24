@@ -10,7 +10,16 @@ module.exports = {
     // Paths
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
-    proxyTable: {},
+    proxyTable: {
+      // '/api': {
+      //   target: 'http://news.10jqka.com.cn/tapp/specialtheme/trend',
+      //   changeOrigin: true,
+      //   secure: true,
+      //   pathRewrite: {
+      //     '^/api': ''
+      //   }
+      // }
+    },
 
     // Various Dev Server settings
     host: 'localhost', // can be overwritten by process.env.HOST

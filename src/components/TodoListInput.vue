@@ -15,6 +15,10 @@ export default {
   },
   methods: {
     entertoadd(e) {
+      if(this.content === '') {
+        return
+      }
+      
       if(e.key === 'Enter') {
         this.$emit('entertoadd', this.content)
         this.content = ''
