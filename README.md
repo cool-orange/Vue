@@ -48,53 +48,22 @@ vue是异步渲染的过程，$nextTick会在Dom的渲染之后被触发回调�
 父组件向子组件插入一些内容  
 ```
 1. 基本使用  
-```
-/* 父组件 */
-<template>
-  <SlotDemo :url="website.url">
-    {{website.title}}
-  </SlotDemo>
-</template>
-/* 子组件 */
-<template>
-  <a :href="url">
-    <slot>默认内容显示</slot>
-  </a> 
-</template>
 父组件的website.title将显示在子组件的a标签中
-```
 2. 作用域插槽  
 父组件访问子组件的数据
 3. 具名插槽
-有时需要多个插槽的情况，如下所示
+需要多个插槽的情况
 ```
-//父组件
-<template>
-  <base-layout>
-    <template v-slot:header>
-      <h1>here</h1>
-    </template>
-    <template v-slot:footer>
-      <h2>there</h2>
-    </template> 
-  </base-layout>
-</template>
-<div class="container">
-  <header>
-    <slot name="header"></slot>
-  </header>
-  <footer>
-    <slot name="footer"></slot>
-  </footer>
-</div>
-```
+
 * 动态组件  
 is特性，动态加载不同的组件
+
 * 异步组件  
 ```
 1. import 函数
 2. 按需加载，异步加载大组件
 ```
+
 * keep-alive函数
 ```md
 缓存组件，频繁切换，不需要重复渲染。
